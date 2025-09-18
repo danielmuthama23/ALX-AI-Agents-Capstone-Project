@@ -1,0 +1,178 @@
+/* Dark theme variables */
+[data-theme="dark"] {
+  /* Primary colors (same as light but adjusted for dark) */
+  --color-primary-50: #1e3a8a;
+  --color-primary-100: #1e40af;
+  --color-primary-200: #1d4ed8;
+  --color-primary-300: #2563eb;
+  --color-primary-400: #3b82f6;
+  --color-primary-500: #60a5fa;
+  --color-primary-600: #93c5fd;
+  --color-primary-700: #bfdbfe;
+  --color-primary-800: #dbeafe;
+  --color-primary-900: #eff6ff;
+
+  /* Gray colors (inverted) */
+  --color-gray-50: #111827;
+  --color-gray-100: #1f2937;
+  --color-gray-200: #374151;
+  --color-gray-300: #4b5563;
+  --color-gray-400: #6b7280;
+  --color-gray-500: #9ca3af;
+  --color-gray-600: #d1d5db;
+  --color-gray-700: #e5e7eb;
+  --color-gray-800: #f3f4f6;
+  --color-gray-900: #f9fafb;
+
+  /* Semantic colors */
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-info: #3b82f6;
+
+  /* Background colors */
+  --color-bg-primary: #111827;
+  --color-bg-secondary: #1f2937;
+  --color-bg-tertiary: #374151;
+
+  /* Text colors */
+  --color-text-primary: #f9fafb;
+  --color-text-secondary: #e5e7eb;
+  --color-text-tertiary: #d1d5db;
+  --color-text-muted: #9ca3af;
+
+  /* Border colors */
+  --color-border-primary: #374151;
+  --color-border-secondary: #4b5563;
+  --color-border-tertiary: #6b7280;
+
+  /* Shadow colors */
+  --color-shadow: rgba(0, 0, 0, 0.3);
+  --color-shadow-lg: rgba(0, 0, 0, 0.4);
+
+  /* Component colors */
+  --color-card-bg: #1f2937;
+  --color-card-border: #374151;
+  --color-card-shadow: rgba(0, 0, 0, 0.2);
+
+  --color-input-bg: #1f2937;
+  --color-input-border: #374151;
+  --color-input-text: #e5e7eb;
+  --color-input-placeholder: #6b7280;
+
+  --color-button-primary-bg: var(--color-primary-400);
+  --color-button-primary-text: #ffffff;
+  --color-button-primary-hover: var(--color-primary-300);
+
+  --color-button-secondary-bg: var(--color-gray-700);
+  --color-button-secondary-text: var(--color-gray-100);
+  --color-button-secondary-hover: var(--color-gray-600);
+}
+
+/* Dark theme specific styles */
+.dark-theme {
+  color-scheme: dark;
+}
+
+.dark-theme body {
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+}
+
+.dark-theme .card {
+  background-color: var(--color-card-bg);
+  border: 1px solid var(--color-card-border);
+  box-shadow: 0 1px 3px var(--color-card-shadow);
+}
+
+.dark-theme .btn-primary {
+  background-color: var(--color-button-primary-bg);
+  color: var(--color-button-primary-text);
+}
+
+.dark-theme .btn-primary:hover {
+  background-color: var(--color-button-primary-hover);
+}
+
+.dark-theme .btn-secondary {
+  background-color: var(--color-button-secondary-bg);
+  color: var(--color-button-secondary-text);
+}
+
+.dark-theme .btn-secondary:hover {
+  background-color: var(--color-button-secondary-hover);
+}
+
+.dark-theme .form-input {
+  background-color: var(--color-input-bg);
+  border-color: var(--color-input-border);
+  color: var(--color-input-text);
+}
+
+.dark-theme .form-input::placeholder {
+  color: var(--color-input-placeholder);
+}
+
+.dark-theme .form-input:focus {
+  border-color: var(--color-primary-400);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* Dark theme transitions */
+.dark-theme {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dark-theme * {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+/* High contrast mode support for dark theme */
+@media (prefers-contrast: high) {
+  [data-theme="dark"] {
+    --color-border-primary: #ffffff;
+    --color-text-primary: #ffffff;
+    --color-text-secondary: #ffffff;
+  }
+  
+  .dark-theme .card {
+    border-width: 2px;
+  }
+  
+  .dark-theme .btn {
+    border-width: 2px;
+  }
+}
+
+/* Reduced motion for dark theme */
+@media (prefers-reduced-motion: reduce) {
+  .dark-theme * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Scrollbar styling for dark theme */
+.dark-theme ::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dark-theme ::-webkit-scrollbar-track {
+  background: var(--color-bg-secondary);
+}
+
+.dark-theme ::-webkit-scrollbar-thumb {
+  background: var(--color-border-secondary);
+  border-radius: 4px;
+}
+
+.dark-theme ::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border-tertiary);
+}
+
+/* Selection color for dark theme */
+.dark-theme ::selection {
+  background-color: var(--color-primary-600);
+  color: white;
+}
