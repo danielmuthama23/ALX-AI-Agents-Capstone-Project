@@ -1,0 +1,61 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+<% if (process.env.REACT_APP_ENV === 'production') { %>
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /private/
+<% } else { %>
+Disallow: /
+<% } %>
+
+# Sitemap
+Sitemap: https://taskflow-ai.example.com/sitemap.xml
+
+# Crawl delay (requests per second)
+Crawl-delay: 1
+
+# Allow media files
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.gif$
+Allow: /*.svg$
+Allow: /*.css$
+Allow: /*.js$
+
+# Disallow query parameters that don't change content
+Disallow: /*?sort=
+Disallow: /*?filter=
+Disallow: /*?page=
+Disallow: /*?search=
+
+# Allow social media bots
+User-agent: FacebookExternalHit
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+# Allow search engine bots
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+# Disallow AI training bots
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /s

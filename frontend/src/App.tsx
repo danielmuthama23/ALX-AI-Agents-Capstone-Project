@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthProvider } from './contexts/AuthContext';
 import { TaskProvider } from './contexts/TaskContext';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { useAuth } from './hooks/useAuth';
 import {
   Login,
   Register,
@@ -14,11 +15,9 @@ import {
 } from './pages';
 import Header from './components/common/Header/Header';
 import Footer from './components/common/Footer/Footer';
-import { useAuth } from './hooks/useAuth';
-import { useTheme } from './hooks/useTheme';
+import LoadingSpinner from './components/common/LoadingSpinner/LoadingSpinner';
 import { classNames } from './utils/helpers';
 import './styles/index.css';
-import './assets/styles/fonts.css';
 
 // Protected route component
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -27,7 +26,7 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <LoadingSpinner size="lg" />
       </div>
     );
   }
@@ -35,14 +34,14 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =
   return isAuthenticated ? <>{children}</> : <Navigate to="/login" replace />;
 };
 
-// Public route component (redirect if authenticated)
+// Public route component (redirect to dashboard if already authenticated)
 const PublicRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();
 
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <LoadingSpinner size="lg" />
       </div>
     );
   }
@@ -52,23 +51,20 @@ const PublicRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
 // Layout component
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { resolvedTheme } = useTheme();
+  const { isAuthenticated } = useAuth();
 
   return (
-    <div className={classNames(
-      'min-h-screen bg-gray-50 transition-colors duration-200',
-      resolvedTheme === 'dark' ? 'dark-theme' : 'light-theme'
-    )}>
-      <Header />
-      <main className="flex-1">
+    <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
+      {isAuthenticated && <Header />}
+      <main className="flex-1 container mx-auto px-4 py-6">
         {children}
       </main>
-      <Footer />
+      {isAuthenticated && <Footer />}
     </div>
   );
 };
 
-const App: React.FC = () => {
+function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
@@ -79,12 +75,16 @@ const App: React.FC = () => {
                 {/* Public routes */}
                 <Route path="/login" element={
                   <PublicRoute>
-                    <Login />
+                    <Layout>
+                      <Login />
+                    </Layout>
                   </PublicRoute>
                 } />
                 <Route path="/register" element={
                   <PublicRoute>
-                    <Register />
+                    <Layout>
+                      <Register />
+                    </Layout>
                   </PublicRoute>
                 } />
 
@@ -118,10 +118,10 @@ const App: React.FC = () => {
                   </ProtectedRoute>
                 } />
 
-                {/* Redirect root to dashboard */}
+                {/* Default route */}
                 <Route path="/" element={<Navigate to="/dashboard" replace />} />
 
-                {/* 404 page */}
+                {/* 404 route */}
                 <Route path="*" element={
                   <Layout>
                     <NotFound />
@@ -134,6 +134,6 @@ const App: React.FC = () => {
       </AuthProvider>
     </ThemeProvider>
   );
-};
+}
 
 export default App;

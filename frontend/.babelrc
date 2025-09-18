@@ -1,0 +1,75 @@
+{
+  "presets": [
+    "@babel/preset-env",
+    "@babel/preset-react",
+    "@babel/preset-typescript"
+  ],
+  "plugins": [
+    [
+      "@babel/plugin-transform-runtime",
+      {
+        "regenerator": true
+      }
+    ],
+    [
+      "babel-plugin-import",
+      {
+        "libraryName": "@heroicons/react",
+        "libraryDirectory": "",
+        "camel2DashComponentName": false,
+        "style": false
+      },
+      "heroicons"
+    ],
+    [
+      "babel-plugin-import",
+      {
+        "libraryName": "date-fns",
+        "libraryDirectory": "",
+        "camel2DashComponentName": false
+      },
+      "date-fns"
+    ],
+    [
+      "babel-plugin-module-resolver",
+      {
+        "root": ["./src"],
+        "alias": {
+          "@": "./src",
+          "@components": "./src/components",
+          "@pages": "./src/pages",
+          "@utils": "./src/utils",
+          "@types": "./src/types",
+          "@services": "./src/services",
+          "@contexts": "./src/contexts",
+          "@hooks": "./src/hooks",
+          "@assets": "./src/assets"
+        }
+      }
+    ]
+  ],
+  "env": {
+    "development": {
+      "plugins": [
+        "react-refresh/babel"
+      ]
+    },
+    "production": {
+      "plugins": [
+        "babel-plugin-transform-react-remove-prop-types"
+      ]
+    },
+    "test": {
+      "presets": [
+        [
+          "@babel/preset-env",
+          {
+            "targets": {
+              "node": "current"
+            }
+          }
+        ]
+      ]
+    }
+  }
+}
