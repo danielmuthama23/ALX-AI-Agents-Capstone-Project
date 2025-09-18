@@ -1,0 +1,86 @@
+{
+  "name": "taskflow-backend",
+  "version": "1.0.0",
+  "description": "Backend for TaskFlow AI - Intelligent Task Management System",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "nodemon src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "test": "jest --coverage --verbose",
+    "test:watch": "jest --watch",
+    "test:unit": "jest --testPathPattern=\"unit\" --verbose",
+    "test:integration": "jest --testPathPattern=\"integration\" --verbose",
+    "test:coverage": "jest --coverage --verbose",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist coverage",
+    "prestart": "npm run build",
+    "pretest": "npm run type-check",
+    "prepare": "npm run build"
+  },
+  "keywords": [
+    "task-management",
+    "productivity",
+    "ai",
+    "typescript",
+    "nodejs",
+    "express",
+    "mongodb"
+  ],
+  "author": "TaskFlow Team",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^7.5.0",
+    "jsonwebtoken": "^9.0.2",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "openai": "^4.20.1",
+    "joi": "^17.9.2",
+    "helmet": "^7.0.0",
+    "morgan": "^1.10.0",
+    "compression": "^1.7.4",
+    "express-rate-limit": "^6.8.1",
+    "winston": "^3.10.0",
+    "winston-daily-rotate-file": "^4.7.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/jsonwebtoken": "^9.0.2",
+    "@types/bcryptjs": "^2.4.2",
+    "@types/cors": "^2.8.13",
+    "@types/compression": "^1.7.2",
+    "@types/helmet": "^4.0.0",
+    "@types/morgan": "^1.9.4",
+    "@types/node": "^20.5.0",
+    "@types/supertest": "^2.0.12",
+    "@types/jest": "^29.5.5",
+    "@typescript-eslint/eslint-plugin": "^6.4.0",
+    "@typescript-eslint/parser": "^6.4.0",
+    "eslint": "^8.47.0",
+    "eslint-config-prettier": "^8.9.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "jest": "^29.6.4",
+    "ts-jest": "^29.1.1",
+    "supertest": "^6.3.3",
+    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.6",
+    "prettier": "^2.8.8"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=7.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/taskflow-backend.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/taskflow-backend/issues"
+  },
+  "homepage": "https://github.com/your-username/taskflow-backend#readme"
+}
