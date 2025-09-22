@@ -3,7 +3,6 @@ import { useAuth } from '../hooks/useAuth';
 import { useTasks } from '../hooks/useTasks';
 import Button from '../components/common/Button/Button';
 import StatsOverview from '../components/dashboard/StatsOverview/StatsOverview';
-import { classNames } from '../utils/helpers';
 import {
   UserCircleIcon,
   EnvelopeIcon,

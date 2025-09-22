@@ -33,12 +33,20 @@ export const successResponse = <T>(
   data?: T,
   pagination?: PaginationResult
 ): ApiResponse<T> => {
-  return {
+  const response: ApiResponse<T> = {
     success: true,
-    message,
-    data,
-    pagination
+    message
   };
+  
+  if (data !== undefined) {
+    response.data = data;
+  }
+  
+  if (pagination !== undefined) {
+    response.pagination = pagination;
+  }
+  
+  return response;
 };
 
 /**
@@ -49,11 +57,16 @@ export const errorResponse = (
   message: string,
   errors?: Array<{ field: string; message: string }>
 ): ApiResponse<null> => {
-  return {
+  const response: ApiResponse<null> = {
     success: false,
-    message,
-    errors
+    message
   };
+  
+  if (errors !== undefined) {
+    response.errors = errors;
+  }
+  
+  return response;
 };
 
 /**
@@ -157,9 +170,9 @@ export const calculateDueDate = (priority: string): Date => {
  */
 export const getClientIp = (req: Request): string => {
   return req.ip || 
-         req.connection.remoteAddress || 
-         req.socket.remoteAddress ||
-         (req.connection.socket ? req.connection.socket.remoteAddress : '') ||
+         (req.connection as any)?.remoteAddress || 
+         (req.socket as any)?.remoteAddress ||
+         ((req.connection as any)?.socket ? (req.connection as any).socket.remoteAddress : '') ||
          'unknown';
 };
 

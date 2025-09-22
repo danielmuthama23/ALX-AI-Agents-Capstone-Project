@@ -1,3 +1,5 @@
+import { User } from './user';
+
 export interface LoginCredentials {
   email: string;
   password: string;
@@ -80,3 +82,7 @@ export const isAuthResponse = (obj: any): obj is AuthResponse => {
     typeof obj.token === 'string' &&
     typeof obj.expiresIn === 'number' &&
     obj.user &&
+    typeof obj.user.id === 'string' &&
+    typeof obj.user.username === 'string' &&
+    typeof obj.user.email === 'string';
+};

@@ -27,12 +27,12 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   };
 
   // Resolve theme based on preference
-  const resolveTheme = (): 'light' | 'dark' => {
+  const resolveTheme = React.useCallback((): 'light' | 'dark' => {
     if (theme === 'system') {
       return getSystemTheme();
     }
     return theme;
-  };
+  }, [theme]);
 
   // Apply theme to document
   const applyTheme = (newTheme: 'light' | 'dark') => {
@@ -49,7 +49,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   useEffect(() => {
     const initialTheme = resolveTheme();
     applyTheme(initialTheme);
-  }, []);
+  }, [resolveTheme]);
 
   // Update theme when preference changes
   useEffect(() => {
@@ -66,7 +66,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
 
     mediaQuery.addEventListener('change', handleChange);
     return () => mediaQuery.removeEventListener('change', handleChange);
-  }, [theme]);
+  }, [theme, resolveTheme]);
 
   const handleSetTheme = (newTheme: Theme) => {
     setTheme(newTheme);

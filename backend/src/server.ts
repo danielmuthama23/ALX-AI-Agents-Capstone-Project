@@ -16,13 +16,13 @@ const HOST = appConfig.HOST;
 
 // Handle uncaught exceptions
 process.on('uncaughtException', (error: Error) => {
-  logger.error('Uncaught Exception:', error);
+  logger.error('Uncaught Exception:', { error: error.message, stack: error.stack });
   process.exit(1);
 });
 
 // Handle unhandled promise rejections
 process.on('unhandledRejection', (reason: any, promise: Promise<any>) => {
-  logger.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  logger.error('Unhandled Rejection:', { promise: String(promise), reason: String(reason) });
   process.exit(1);
 });
 
@@ -45,7 +45,7 @@ const gracefulShutdown = async (signal: string) => {
       process.exit(0);
     }
   } catch (error) {
-    logger.error('Error during graceful shutdown:', error);
+    logger.error('Error during graceful shutdown:', { error: error instanceof Error ? error.message : String(error) });
     process.exit(1);
   }
 };
@@ -79,14 +79,14 @@ const startServer = async () => {
         logger.error(`Port ${PORT} is already in use.`);
         process.exit(1);
       } else {
-        logger.error('Server error:', error);
+        logger.error('Server error:', { error: error instanceof Error ? error.message : String(error) });
         process.exit(1);
       }
     });
 
     return server;
   } catch (error) {
-    logger.error('Failed to start server:', error);
+    logger.error('Failed to start server:', { error: error instanceof Error ? error.message : String(error) });
     process.exit(1);
   }
 };

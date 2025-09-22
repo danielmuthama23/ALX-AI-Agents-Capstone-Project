@@ -44,7 +44,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const login = async (email: string, password: string): Promise<void> => {
     try {
-      const response = await authService.login({ email, password });
+      await authService.login({ email, password });
       const userProfile = await authService.getProfile();
       setUser(userProfile);
     } catch (error: any) {
@@ -54,7 +54,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const register = async (username: string, email: string, password: string): Promise<void> => {
     try {
-      const response = await authService.register({ username, email, password });
+      await authService.register({ username, email, password });
       const userProfile = await authService.getProfile();
       setUser(userProfile);
     } catch (error: any) {

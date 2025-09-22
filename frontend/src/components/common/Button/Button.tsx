@@ -13,7 +13,7 @@ export type ButtonVariant =
 export type ButtonSize = 'sm' | 'md' | 'lg' | 'xl';
 
 export interface ButtonProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   variant?: ButtonVariant;
   size?: ButtonSize;
   disabled?: boolean;
@@ -97,7 +97,7 @@ const Button: React.FC<ButtonProps> = ({
         <span className="mr-2">{icon}</span>
       )}
       
-      <span>{children}</span>
+      {children && <span>{children}</span>}
       
       {!loading && icon && iconPosition === 'right' && (
         <span className="ml-2">{icon}</span>

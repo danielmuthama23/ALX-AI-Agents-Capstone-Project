@@ -48,7 +48,7 @@ app.use((0, compression_1.default)({
 }));
 app.use(express_1.default.json({
     limit: '10mb',
-    verify: (req, res, buf) => {
+    verify: (req, _res, buf) => {
         req.rawBody = buf;
     }
 }));
@@ -66,7 +66,7 @@ if (config_1.appConfig.NODE_ENV !== 'test') {
     }));
 }
 app.use(logger_1.requestLogger);
-app.get('/health', (req, res) => {
+app.get('/health', (_req, res) => {
     const healthCheck = {
         status: 'OK',
         timestamp: new Date().toISOString(),
@@ -78,7 +78,7 @@ app.get('/health', (req, res) => {
 });
 app.use('/api', routes_1.default);
 if (config_1.appConfig.NODE_ENV === 'development') {
-    app.get('/api/docs', (req, res) => {
+    app.get('/api/docs', (_req, res) => {
         res.json({
             message: 'API Documentation',
             endpoints: {

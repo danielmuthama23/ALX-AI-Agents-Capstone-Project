@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Task, TaskPriority } from '../../../types/task';
 import Button from '../../common/Button/Button';
-import { classNames } from '../../../utils/helpers';
 
 export interface TaskFormProps {
   initialData?: Partial<Task>;
@@ -56,7 +55,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
     }
   };
 
-  const isEditing = !!initialData;
+  // const isEditing = !!initialData; // TODO: Use this for conditional rendering
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">

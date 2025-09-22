@@ -133,14 +133,15 @@ export const deepMerge = <T extends object, U extends object>(target: T, source:
 
   if (isObject(target) && isObject(source)) {
     Object.keys(source).forEach(key => {
-      if (isObject(source[key])) {
+      const sourceValue = (source as any)[key];
+      if (isObject(sourceValue)) {
         if (!(key in target)) {
-          Object.assign(output, { [key]: source[key] });
+          Object.assign(output, { [key]: sourceValue });
         } else {
-          output[key] = deepMerge(target[key], source[key]);
+          output[key] = deepMerge((target as any)[key], sourceValue);
         }
       } else {
-        Object.assign(output, { [key]: source[key] });
+        Object.assign(output, { [key]: sourceValue });
       }
     });
   }

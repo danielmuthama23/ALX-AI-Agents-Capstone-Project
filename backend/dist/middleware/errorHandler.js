@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.validateEnvVars = exports.notFound = exports.asyncHandler = exports.errorHandler = void 0;
-const errorHandler = (err, req, res, next) => {
+const errorHandler = (err, _req, res, _next) => {
     let error = { ...err };
     error.message = err.message;
     console.error('Error:', {

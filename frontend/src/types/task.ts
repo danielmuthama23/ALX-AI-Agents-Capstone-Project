@@ -60,6 +60,7 @@ export interface TaskStats {
   pending: number;
   overdue: number;
   dueSoon: number;
+  completionRate: number;
   byPriority: Array<{ _id: string; count: number }>;
   byCategory: Array<{ _id: string; count: number }>;
   insights: string;

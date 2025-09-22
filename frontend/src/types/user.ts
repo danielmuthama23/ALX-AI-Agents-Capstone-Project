@@ -80,11 +80,15 @@ export const isUser = (obj: any): obj is User => {
 };
 
 export const isUserProfile = (obj: any): obj is UserProfile => {
-  return isUser(obj) && (
-    obj.stats === undefined || (
+  return obj &&
+    typeof obj.id === 'string' &&
+    typeof obj.username === 'string' &&
+    typeof obj.email === 'string' &&
+    obj.createdAt instanceof Date &&
+    obj.updatedAt instanceof Date &&
+    (obj.stats === undefined || (
       typeof obj.stats?.totalTasks === 'number' &&
       typeof obj.stats?.completedTasks === 'number' &&
       typeof obj.stats?.highPriorityTasks === 'number'
-    )
-  );
+    ));
 };

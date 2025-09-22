@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { IUser } from '../../models/User';
+// import { IUser } from '../../models/User'; // Unused import
 
 /**
  * @interface TestUser

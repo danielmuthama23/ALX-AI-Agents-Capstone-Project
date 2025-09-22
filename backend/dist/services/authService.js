@@ -34,8 +34,8 @@ class AuthService {
             if (!isPasswordValid) {
                 throw new Error('Invalid credentials');
             }
-            const userWithoutPassword = user.toObject();
-            delete userWithoutPassword.password;
+            const userObj = user.toObject();
+            const { password, ...userWithoutPassword } = userObj;
             const token = (0, auth_1.generateToken)(user._id.toString());
             return { user: userWithoutPassword, token };
         }

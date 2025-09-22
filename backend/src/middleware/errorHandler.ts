@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import mongoose from 'mongoose';
+// import mongoose from 'mongoose'; // Unused import
 
 /**
  * @interface CustomError
@@ -18,9 +18,9 @@ interface CustomError extends Error {
  */
 export const errorHandler = (
   err: CustomError,
-  req: Request,
+  _req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ): void => {
   let error = { ...err };
   error.message = err.message;

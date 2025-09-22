@@ -5,7 +5,7 @@ interface CustomError extends Error {
     keyValue?: Record<string, any>;
     errors?: Record<string, any>;
 }
-export declare const errorHandler: (err: CustomError, req: Request, res: Response, next: NextFunction) => void;
+export declare const errorHandler: (err: CustomError, _req: Request, res: Response, _next: NextFunction) => void;
 export declare const asyncHandler: (fn: Function) => (req: Request, res: Response, next: NextFunction) => void;
 export declare const notFound: (req: Request, res: Response, next: NextFunction) => void;
 export declare const validateEnvVars: () => void;

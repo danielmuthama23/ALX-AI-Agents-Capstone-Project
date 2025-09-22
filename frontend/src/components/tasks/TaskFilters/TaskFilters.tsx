@@ -18,7 +18,7 @@ export interface TaskFiltersProps {
   className?: string;
 }
 
-const TaskFilters: React.FC<TaskFiltersProps> = ({
+const TaskFiltersComponent: React.FC<TaskFiltersProps> = ({
   filters,
   onFiltersChange,
   availableCategories,
@@ -214,4 +214,4 @@ const TaskFilters: React.FC<TaskFiltersProps> = ({
   );
 };
 
-export default TaskFilters;
+export default TaskFiltersComponent;

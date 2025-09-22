@@ -6,20 +6,28 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getTimeAgo = exports.formatFileSize = exports.generateSlug = exports.isStrongPassword = exports.isEmail = exports.deepClone = exports.throttle = exports.debounce = exports.getClientIp = exports.calculateDueDate = exports.formatDate = exports.sanitizeInput = exports.generateRandomString = exports.validateObjectId = exports.getPagination = exports.errorResponse = exports.successResponse = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const successResponse = (message, data, pagination) => {
-    return {
+    const response = {
         success: true,
-        message,
-        data,
-        pagination
+        message
     };
+    if (data !== undefined) {
+        response.data = data;
+    }
+    if (pagination !== undefined) {
+        response.pagination = pagination;
+    }
+    return response;
 };
 exports.successResponse = successResponse;
 const errorResponse = (message, errors) => {
-    return {
+    const response = {
         success: false,
-        message,
-        errors
+        message
     };
+    if (errors !== undefined) {
+        response.errors = errors;
+    }
+    return response;
 };
 exports.errorResponse = errorResponse;
 const getPagination = (page = 1, limit = 10, total = 0) => {
@@ -86,9 +94,9 @@ const calculateDueDate = (priority) => {
 exports.calculateDueDate = calculateDueDate;
 const getClientIp = (req) => {
     return req.ip ||
-        req.connection.remoteAddress ||
-        req.socket.remoteAddress ||
-        (req.connection.socket ? req.connection.socket.remoteAddress : '') ||
+        req.connection?.remoteAddress ||
+        req.socket?.remoteAddress ||
+        (req.connection?.socket ? req.connection.socket.remoteAddress : '') ||
         'unknown';
 };
 exports.getClientIp = getClientIp;

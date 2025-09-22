@@ -67,7 +67,7 @@ const setupEnvironment = () => {
         });
     }
     catch (error) {
-        logger_1.logger.error('Environment setup failed:', error);
+        logger_1.logger.error('Environment setup failed:', { error: error instanceof Error ? error.message : String(error) });
         process.exit(1);
     }
 };

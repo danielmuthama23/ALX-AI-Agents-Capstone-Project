@@ -15,7 +15,7 @@ exports.testTasks = [
         priority: 'high',
         category: 'work',
         completed: false,
-        userId: userData_1.testUsers[0]._id,
+        userId: userData_1.testUsers[0]?._id || new mongoose_1.default.Types.ObjectId(),
         createdAt: new Date(),
         updatedAt: new Date()
     },
@@ -27,7 +27,7 @@ exports.testTasks = [
         priority: 'medium',
         category: 'shopping',
         completed: false,
-        userId: userData_1.testUsers[0]._id,
+        userId: userData_1.testUsers[0]?._id || new mongoose_1.default.Types.ObjectId(),
         createdAt: new Date(),
         updatedAt: new Date()
     },
@@ -38,7 +38,7 @@ exports.testTasks = [
         priority: 'low',
         category: 'health',
         completed: true,
-        userId: userData_1.testUsers[0]._id,
+        userId: userData_1.testUsers[0]?._id || new mongoose_1.default.Types.ObjectId(),
         createdAt: new Date(),
         updatedAt: new Date(),
         completedAt: new Date()
@@ -51,7 +51,7 @@ exports.testTasks = [
         priority: 'medium',
         category: 'learning',
         completed: false,
-        userId: userData_1.testUsers[1]._id,
+        userId: userData_1.testUsers[1]?._id || new mongoose_1.default.Types.ObjectId(),
         createdAt: new Date(),
         updatedAt: new Date()
     },
@@ -62,7 +62,7 @@ exports.testTasks = [
         priority: 'high',
         category: 'finance',
         completed: false,
-        userId: userData_1.testUsers[1]._id,
+        userId: userData_1.testUsers[1]?._id || new mongoose_1.default.Types.ObjectId(),
         createdAt: new Date(),
         updatedAt: new Date()
     }

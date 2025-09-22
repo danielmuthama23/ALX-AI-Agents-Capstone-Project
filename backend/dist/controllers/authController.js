@@ -3,20 +3,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.logout = exports.changePassword = exports.updateProfile = exports.getMe = exports.login = exports.register = void 0;
+exports.logout = exports.changePassword = exports.updateProfile = exports.getProfile = exports.getMe = exports.login = exports.register = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const User_1 = __importDefault(require("../models/User"));
-const validation_1 = require("../middleware/validation");
+const generateToken = (userId) => {
+    const secret = process.env.JWT_SECRET;
+    if (!secret) {
+        throw new Error('JWT_SECRET is not configured');
+    }
+    return jsonwebtoken_1.default.sign({ id: userId }, secret, { expiresIn: process.env.JWT_EXPIRES_IN || '7d' });
+};
 const register = async (req, res) => {
     try {
-        const { error } = (0, validation_1.validateRegistration)(req.body);
-        if (error) {
-            res.status(400).json({
-                message: 'Validation error',
-                errors: error.details.map(detail => detail.message)
-            });
-            return;
-        }
         const { username, email, password } = req.body;
         const existingUser = await User_1.default.findOne({
             $or: [{ email }, { username }]
@@ -33,7 +31,7 @@ const register = async (req, res) => {
             password
         });
         await user.save();
-        const token = jsonwebtoken_1.default.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN || '7d' });
+        const token = generateToken(user._id.toString());
         res.status(201).json({
             message: 'User registered successfully',
             token,
@@ -55,14 +53,6 @@ const register = async (req, res) => {
 exports.register = register;
 const login = async (req, res) => {
     try {
-        const { error } = (0, validation_1.validateLogin)(req.body);
-        if (error) {
-            res.status(400).json({
-                message: 'Validation error',
-                errors: error.details.map(detail => detail.message)
-            });
-            return;
-        }
         const { email, password } = req.body;
         const user = await User_1.default.findOne({ email });
         if (!user) {
@@ -74,7 +64,7 @@ const login = async (req, res) => {
             res.status(401).json({ message: 'Invalid credentials' });
             return;
         }
-        const token = jsonwebtoken_1.default.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN || '7d' });
+        const token = generateToken(user._id.toString());
         res.json({
             message: 'Login successful',
             token,
@@ -120,6 +110,33 @@ const getMe = async (req, res) => {
     }
 };
 exports.getMe = getMe;
+const getProfile = async (req, res) => {
+    try {
+        const user = req.user;
+        if (!user) {
+            res.status(401).json({ message: 'User not authenticated' });
+            return;
+        }
+        res.json({
+            message: 'Profile retrieved successfully',
+            user: {
+                id: user._id,
+                username: user.username,
+                email: user.email,
+                createdAt: user.createdAt,
+                updatedAt: user.updatedAt
+            }
+        });
+    }
+    catch (error) {
+        console.error('Get profile error:', error);
+        res.status(500).json({
+            message: 'Server error',
+            error: error.message
+        });
+    }
+};
+exports.getProfile = getProfile;
 const updateProfile = async (req, res) => {
     try {
         const { username, email } = req.body;
@@ -198,7 +215,7 @@ const changePassword = async (req, res) => {
     }
 };
 exports.changePassword = changePassword;
-const logout = async (req, res) => {
+const logout = async (_req, res) => {
     try {
         res.json({ message: 'Logout successful' });
     }

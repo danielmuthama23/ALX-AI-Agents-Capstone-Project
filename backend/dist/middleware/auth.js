@@ -59,14 +59,18 @@ const authenticate = async (req, res, next) => {
     }
 };
 exports.authenticate = authenticate;
-const optionalAuth = async (req, res, next) => {
+const optionalAuth = async (req, _res, next) => {
     try {
         const authHeader = req.header('Authorization');
         if (authHeader && authHeader.startsWith('Bearer ')) {
             const token = authHeader.replace('Bearer ', '');
-            const decoded = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
+            const secret = process.env.JWT_SECRET;
+            if (!secret) {
+                throw new Error('JWT_SECRET is not configured');
+            }
+            const decoded = jsonwebtoken_1.default.verify(token, secret);
             const user = await User_1.default.findById(decoded.id).select('-password');
-            req.user = user || undefined;
+            req.user = user;
         }
         next();
     }

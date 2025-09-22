@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import Task, { ITask } from '../models/Task';
+import Task from '../models/Task';
 import { AIservice } from '../services/aiService';
 
 /**

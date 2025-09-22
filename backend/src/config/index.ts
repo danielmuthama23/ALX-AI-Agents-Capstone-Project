@@ -143,7 +143,7 @@ export const setupEnvironment = (): void => {
     });
     
   } catch (error) {
-    logger.error('Environment setup failed:', error);
+    logger.error('Environment setup failed:', { error: error instanceof Error ? error.message : String(error) });
     process.exit(1);
   }
 };

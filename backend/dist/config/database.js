@@ -36,7 +36,7 @@ const connectDB = async () => {
             logger_1.logger.info('MongoDB connected successfully');
         });
         mongoose_1.default.connection.on('error', (error) => {
-            logger_1.logger.error('MongoDB connection error:', error);
+            logger_1.logger.error('MongoDB connection error:', { error: error instanceof Error ? error.message : String(error) });
         });
         mongoose_1.default.connection.on('disconnected', () => {
             logger_1.logger.warn('MongoDB disconnected');
@@ -51,14 +51,14 @@ const connectDB = async () => {
                 process.exit(0);
             }
             catch (error) {
-                logger_1.logger.error('Error closing MongoDB connection:', error);
+                logger_1.logger.error('Error closing MongoDB connection:', { error: error instanceof Error ? error.message : String(error) });
                 process.exit(1);
             }
         });
         await mongoose_1.default.connect(config.uri, config.options);
     }
     catch (error) {
-        logger_1.logger.error('Database connection failed:', error);
+        logger_1.logger.error('Database connection failed:', { error: error instanceof Error ? error.message : String(error) });
         process.exit(1);
     }
 };
@@ -69,7 +69,7 @@ const disconnectDB = async () => {
         logger_1.logger.info('Database connection closed');
     }
     catch (error) {
-        logger_1.logger.error('Error closing database connection:', error);
+        logger_1.logger.error('Error closing database connection:', { error: error instanceof Error ? error.message : String(error) });
         throw error;
     }
 };
@@ -85,7 +85,7 @@ const getDatabaseStats = async () => {
         };
     }
     catch (error) {
-        logger_1.logger.error('Error getting database stats:', error);
+        logger_1.logger.error('Error getting database stats:', { error: error instanceof Error ? error.message : String(error) });
         return {
             connections: 0,
             readyState: mongoose_1.default.connection.readyState,
@@ -105,7 +105,7 @@ const pingDatabase = async () => {
         return true;
     }
     catch (error) {
-        logger_1.logger.error('Database ping failed:', error);
+        logger_1.logger.error('Database ping failed:', { error: error instanceof Error ? error.message : String(error) });
         return false;
     }
 };

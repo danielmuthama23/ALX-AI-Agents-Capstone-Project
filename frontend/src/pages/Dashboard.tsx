@@ -6,7 +6,6 @@ import ActivityFeed from '../components/dashboard/ActivityFeed/ActivityFeed';
 import TaskList from '../components/tasks/TaskList/TaskList';
 import Button from '../components/common/Button/Button';
 import { PlusIcon } from '@heroicons/react/24/outline';
-import { classNames } from '../utils/helpers';
 import { Link } from 'react-router-dom';
 
 const Dashboard: React.FC = () => {

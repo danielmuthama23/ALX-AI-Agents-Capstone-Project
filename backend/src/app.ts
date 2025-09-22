@@ -8,7 +8,7 @@ import routes from './routes';
 import { errorHandler, notFound } from './middleware/errorHandler';
 import { requestLogger } from './utils/logger';
 import { appConfig } from './config';
-import { AuthRequest } from './types';
+// import { AuthRequest } from './types'; // Unused import
 
 /**
  * @file Express application setup
@@ -60,7 +60,7 @@ app.use(compression({
 // Body parsing middleware
 app.use(express.json({ 
   limit: '10mb',
-  verify: (req: any, res, buf) => {
+  verify: (req: any, _res, buf) => {
     req.rawBody = buf;
   }
 }));
@@ -84,7 +84,7 @@ if (appConfig.NODE_ENV !== 'test') {
 app.use(requestLogger);
 
 // Health check endpoint
-app.get('/health', (req, res) => {
+app.get('/health', (_req, res) => {
   const healthCheck = {
     status: 'OK',
     timestamp: new Date().toISOString(),
@@ -101,7 +101,7 @@ app.use('/api', routes);
 
 // Serve API documentation in development
 if (appConfig.NODE_ENV === 'development') {
-  app.get('/api/docs', (req, res) => {
+  app.get('/api/docs', (_req, res) => {
     res.json({
       message: 'API Documentation',
       endpoints: {

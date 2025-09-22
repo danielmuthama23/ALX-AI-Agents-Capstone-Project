@@ -6,7 +6,6 @@ import TaskFilters from '../components/tasks/TaskFilters/TaskFilters';
 import Button from '../components/common/Button/Button';
 import Modal from '../components/common/Modal/Modal';
 import { PlusIcon, FunnelIcon } from '@heroicons/react/24/outline';
-import { classNames } from '../utils/helpers';
 import { Task, TaskFilters as TaskFiltersType } from '../types/task';
 
 const Tasks: React.FC = () => {

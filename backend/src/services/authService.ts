@@ -61,8 +61,8 @@ export class AuthService {
       }
 
       // Remove password from user object
-      const userWithoutPassword = user.toObject();
-      delete userWithoutPassword.password;
+      const userObj = user.toObject();
+      const { password, ...userWithoutPassword } = userObj;
 
       // Generate token
       const token = generateToken(user._id.toString());

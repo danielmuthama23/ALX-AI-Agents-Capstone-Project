@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Task, TaskPriority, TaskStatus, TaskFilters } from '../types/task';
+import { Task, TaskFilters } from '../types/task';
 import { taskService } from '../services/tasks';
 import { useAuth } from './useAuth';
 
@@ -20,6 +20,7 @@ interface UseTasksReturn {
     pending: number;
     overdue: number;
     dueSoon: number;
+    completionRate: number;
     byPriority: Array<{ _id: string; count: number }>;
     byCategory: Array<{ _id: string; count: number }>;
     insights: string;
@@ -51,8 +52,9 @@ export const useTasks = (initialFilters: TaskFilters = {}): UseTasksReturn => {
     pending: 0,
     overdue: 0,
     dueSoon: 0,
-    byPriority: [],
-    byCategory: [],
+    completionRate: 0,
+    byPriority: [] as Array<{ _id: string; count: number }>,
+    byCategory: [] as Array<{ _id: string; count: number }>,
     insights: ''
   });
 
@@ -91,7 +93,11 @@ export const useTasks = (initialFilters: TaskFilters = {}): UseTasksReturn => {
 
     try {
       const statsData = await taskService.getTaskStats();
-      setStats(statsData);
+      const completionRate = statsData.total > 0 ? (statsData.completed / statsData.total) * 100 : 0;
+      setStats({
+        ...statsData,
+        completionRate
+      });
     } catch (err: any) {
       console.error('Error fetching stats:', err);
     }

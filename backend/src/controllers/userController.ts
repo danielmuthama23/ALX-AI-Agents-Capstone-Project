@@ -82,19 +82,17 @@ export const updateUserProfile = async (req: AuthRequest, res: Response): Promis
 
     // Check if email or username is already taken by another user
     if (email || username) {
-      const existingUser = await User.findOne({
-        $and: [
-          { _id: { $ne: userId } },
-          { $or: [] }
-        ]
-      });
-
       // Build the OR condition dynamically
       const orConditions = [];
       if (email) orConditions.push({ email });
       if (username) orConditions.push({ username });
 
-      existingUser.$or = orConditions;
+      const existingUser = await User.findOne({
+        $and: [
+          { _id: { $ne: userId } },
+          { $or: orConditions }
+        ]
+      });
 
       if (existingUser) {
         res.status(409).json({ 

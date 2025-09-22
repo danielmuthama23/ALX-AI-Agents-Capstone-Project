@@ -8,7 +8,7 @@ const authRoutes_1 = __importDefault(require("./authRoutes"));
 const taskRoutes_1 = __importDefault(require("./taskRoutes"));
 const userRoutes_1 = __importDefault(require("./userRoutes"));
 const router = express_1.default.Router();
-router.get('/health', (req, res) => {
+router.get('/health', (_req, res) => {
     res.status(200).json({
         status: 'OK',
         timestamp: new Date().toISOString(),

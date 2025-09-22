@@ -184,7 +184,7 @@ export const validatePasswordChange = validateRequest(Joi.object({
 export const validateObjectId = (req: Request, res: Response, next: NextFunction): void => {
   const { id } = req.params;
   
-  if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+  if (!id || !id.match(/^[0-9a-fA-F]{24}$/)) {
     res.status(400).json({
       success: false,
       message: 'Invalid ID format'

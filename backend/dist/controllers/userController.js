@@ -59,18 +59,17 @@ const updateUserProfile = async (req, res) => {
             return;
         }
         if (email || username) {
-            const existingUser = await User_1.default.findOne({
-                $and: [
-                    { _id: { $ne: userId } },
-                    { $or: [] }
-                ]
-            });
             const orConditions = [];
             if (email)
                 orConditions.push({ email });
             if (username)
                 orConditions.push({ username });
-            existingUser.$or = orConditions;
+            const existingUser = await User_1.default.findOne({
+                $and: [
+                    { _id: { $ne: userId } },
+                    { $or: orConditions }
+                ]
+            });
             if (existingUser) {
                 res.status(409).json({
                     message: 'Email or username already taken'

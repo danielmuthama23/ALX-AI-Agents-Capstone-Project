@@ -85,7 +85,7 @@ const TaskSchema = new mongoose_1.Schema({
 }, {
     timestamps: true,
     toJSON: {
-        transform: function (doc, ret) {
+        transform: function (_doc, ret) {
             ret.id = ret._id;
             delete ret._id;
             delete ret.__v;
@@ -93,7 +93,7 @@ const TaskSchema = new mongoose_1.Schema({
         }
     },
     toObject: {
-        transform: function (doc, ret) {
+        transform: function (_doc, ret) {
             ret.id = ret._id;
             delete ret._id;
             delete ret.__v;

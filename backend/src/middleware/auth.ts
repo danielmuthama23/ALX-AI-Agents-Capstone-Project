@@ -81,7 +81,7 @@ export const authenticate = async (
  */
 export const optionalAuth = async (
   req: AuthRequest,
-  res: Response,
+  _res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
@@ -89,9 +89,13 @@ export const optionalAuth = async (
     
     if (authHeader && authHeader.startsWith('Bearer ')) {
       const token = authHeader.replace('Bearer ', '');
-      const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: string };
+      const secret = process.env.JWT_SECRET;
+      if (!secret) {
+        throw new Error('JWT_SECRET is not configured');
+      }
+      const decoded = (jwt.verify as any)(token, secret) as { id: string };
       const user = await User.findById(decoded.id).select('-password');
-      req.user = user || undefined;
+      req.user = user as any;
     }
     
     next();
@@ -135,9 +139,9 @@ export const requireAdmin = (
  * @description Generate JWT token for a user
  */
 export const generateToken = (userId: string): string => {
-  return jwt.sign(
+  return (jwt.sign as any)(
     { id: userId },
-    process.env.JWT_SECRET!,
+    process.env.JWT_SECRET as string,
     { 
       expiresIn: process.env.JWT_EXPIRES_IN || '7d',
       issuer: 'taskflow-api',

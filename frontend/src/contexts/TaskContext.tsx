@@ -34,7 +34,7 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
 
   const { isAuthenticated } = useAuth();
 
-  const fetchTasks = async () => {
+  const fetchTasks = React.useCallback(async () => {
     if (!isAuthenticated) return;
 
     try {
@@ -48,11 +48,11 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [isAuthenticated, filters]);
 
   React.useEffect(() => {
     fetchTasks();
-  }, [isAuthenticated, filters]);
+  }, [isAuthenticated, filters, fetchTasks]);
 
   const createTask = async (taskData: Partial<Task>): Promise<void> => {
     try {

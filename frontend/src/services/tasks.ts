@@ -1,5 +1,5 @@
 import api from './api';
-import { Task, TaskPriority, TaskStatus, TaskFilters } from '../types/task';
+import { Task, TaskPriority } from '../types/task';
 
 export interface TasksResponse {
   tasks: Task[];

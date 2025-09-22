@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { ITask } from '../../models/Task';
+// import { ITask } from '../../models/Task'; // Unused import
 import { testUsers } from './userData';
 
 /**
@@ -33,7 +33,7 @@ export const testTasks: TestTask[] = [
     priority: 'high',
     category: 'work',
     completed: false,
-    userId: testUsers[0]._id!,
+    userId: testUsers[0]?._id || new mongoose.Types.ObjectId(),
     createdAt: new Date(),
     updatedAt: new Date()
   },
@@ -45,7 +45,7 @@ export const testTasks: TestTask[] = [
     priority: 'medium',
     category: 'shopping',
     completed: false,
-    userId: testUsers[0]._id!,
+    userId: testUsers[0]?._id || new mongoose.Types.ObjectId(),
     createdAt: new Date(),
     updatedAt: new Date()
   },
@@ -56,7 +56,7 @@ export const testTasks: TestTask[] = [
     priority: 'low',
     category: 'health',
     completed: true,
-    userId: testUsers[0]._id!,
+    userId: testUsers[0]?._id || new mongoose.Types.ObjectId(),
     createdAt: new Date(),
     updatedAt: new Date(),
     completedAt: new Date()
@@ -69,7 +69,7 @@ export const testTasks: TestTask[] = [
     priority: 'medium',
     category: 'learning',
     completed: false,
-    userId: testUsers[1]._id!,
+    userId: testUsers[1]?._id || new mongoose.Types.ObjectId(),
     createdAt: new Date(),
     updatedAt: new Date()
   },
@@ -80,7 +80,7 @@ export const testTasks: TestTask[] = [
     priority: 'high',
     category: 'finance',
     completed: false,
-    userId: testUsers[1]._id!,
+    userId: testUsers[1]?._id || new mongoose.Types.ObjectId(),
     createdAt: new Date(),
     updatedAt: new Date()
   }

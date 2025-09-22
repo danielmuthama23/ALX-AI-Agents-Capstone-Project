@@ -11,11 +11,11 @@ const config_1 = require("./config");
 const PORT = config_1.appConfig.PORT;
 const HOST = config_1.appConfig.HOST;
 process.on('uncaughtException', (error) => {
-    logger_1.logger.error('Uncaught Exception:', error);
+    logger_1.logger.error('Uncaught Exception:', { error: error.message, stack: error.stack });
     process.exit(1);
 });
 process.on('unhandledRejection', (reason, promise) => {
-    logger_1.logger.error('Unhandled Rejection at:', promise, 'reason:', reason);
+    logger_1.logger.error('Unhandled Rejection:', { promise: String(promise), reason: String(reason) });
     process.exit(1);
 });
 const gracefulShutdown = async (signal) => {
@@ -34,7 +34,7 @@ const gracefulShutdown = async (signal) => {
         }
     }
     catch (error) {
-        logger_1.logger.error('Error during graceful shutdown:', error);
+        logger_1.logger.error('Error during graceful shutdown:', { error: error instanceof Error ? error.message : String(error) });
         process.exit(1);
     }
 };
@@ -59,14 +59,14 @@ const startServer = async () => {
                 process.exit(1);
             }
             else {
-                logger_1.logger.error('Server error:', error);
+                logger_1.logger.error('Server error:', { error: error instanceof Error ? error.message : String(error) });
                 process.exit(1);
             }
         });
         return server;
     }
     catch (error) {
-        logger_1.logger.error('Failed to start server:', error);
+        logger_1.logger.error('Failed to start server:', { error: error instanceof Error ? error.message : String(error) });
         process.exit(1);
     }
 };

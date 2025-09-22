@@ -62,7 +62,7 @@ export const connectDB = async (): Promise<void> => {
     });
 
     mongoose.connection.on('error', (error) => {
-      logger.error('MongoDB connection error:', error);
+      logger.error('MongoDB connection error:', { error: error instanceof Error ? error.message : String(error) });
     });
 
     mongoose.connection.on('disconnected', () => {
@@ -80,7 +80,7 @@ export const connectDB = async (): Promise<void> => {
         logger.info('MongoDB connection closed through app termination');
         process.exit(0);
       } catch (error) {
-        logger.error('Error closing MongoDB connection:', error);
+        logger.error('Error closing MongoDB connection:', { error: error instanceof Error ? error.message : String(error) });
         process.exit(1);
       }
     });
@@ -89,7 +89,7 @@ export const connectDB = async (): Promise<void> => {
     await mongoose.connect(config.uri, config.options);
     
   } catch (error) {
-    logger.error('Database connection failed:', error);
+    logger.error('Database connection failed:', { error: error instanceof Error ? error.message : String(error) });
     process.exit(1);
   }
 };
@@ -103,7 +103,7 @@ export const disconnectDB = async (): Promise<void> => {
     await mongoose.connection.close();
     logger.info('Database connection closed');
   } catch (error) {
-    logger.error('Error closing database connection:', error);
+    logger.error('Error closing database connection:', { error: error instanceof Error ? error.message : String(error) });
     throw error;
   }
 };
@@ -128,7 +128,7 @@ export const getDatabaseStats = async (): Promise<{
       name: mongoose.connection.name || 'unknown'
     };
   } catch (error) {
-    logger.error('Error getting database stats:', error);
+    logger.error('Error getting database stats:', { error: error instanceof Error ? error.message : String(error) });
     return {
       connections: 0,
       readyState: mongoose.connection.readyState,
@@ -155,7 +155,7 @@ export const pingDatabase = async (): Promise<boolean> => {
     await mongoose.connection.db?.admin().ping();
     return true;
   } catch (error) {
-    logger.error('Database ping failed:', error);
+    logger.error('Database ping failed:', { error: error instanceof Error ? error.message : String(error) });
     return false;
   }
 };

@@ -1,7 +1,23 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import User from '../models/User';
-import { validateLogin, validateRegistration } from '../middleware/validation';
+// import { validateLogin, validateRegistration } from '../middleware/validation'; // Unused imports
+
+/**
+ * @function generateToken
+ * @description Generate JWT token with proper typing
+ */
+const generateToken = (userId: string): string => {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    throw new Error('JWT_SECRET is not configured');
+  }
+  return (jwt.sign as any)(
+    { id: userId },
+    secret,
+    { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
+  );
+};
 
 /**
  * @interface AuthRequest
@@ -18,14 +34,7 @@ interface AuthRequest extends Request {
  */
 export const register = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { error } = validateRegistration(req.body);
-    if (error) {
-      res.status(400).json({ 
-        message: 'Validation error', 
-        errors: error.details.map(detail => detail.message) 
-      });
-      return;
-    }
+    // Validation is handled by middleware, so we can proceed directly
 
     const { username, email, password } = req.body;
 
@@ -51,11 +60,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
     await user.save();
 
     // Generate JWT token
-    const token = jwt.sign(
-      { id: user._id },
-      process.env.JWT_SECRET!,
-      { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
-    );
+    const token = generateToken(user._id.toString());
 
     res.status(201).json({
       message: 'User registered successfully',
@@ -82,14 +87,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
  */
 export const login = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { error } = validateLogin(req.body);
-    if (error) {
-      res.status(400).json({ 
-        message: 'Validation error', 
-        errors: error.details.map(detail => detail.message) 
-      });
-      return;
-    }
+    // Validation is handled by middleware, so we can proceed directly
 
     const { email, password } = req.body;
 
@@ -108,11 +106,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     }
 
     // Generate JWT token
-    const token = jwt.sign(
-      { id: user._id },
-      process.env.JWT_SECRET!,
-      { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
-    );
+    const token = generateToken(user._id.toString());
 
     res.json({
       message: 'Login successful',
@@ -157,6 +151,39 @@ export const getMe = async (req: AuthRequest, res: Response): Promise<void> => {
     });
   } catch (error) {
     console.error('Get user error:', error);
+    res.status(500).json({ 
+      message: 'Server error', 
+      error: (error as Error).message 
+    });
+  }
+};
+
+/**
+ * @desc Get current user profile
+ * @route GET /api/auth/me
+ * @access Private
+ */
+export const getProfile = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const user = req.user;
+    
+    if (!user) {
+      res.status(401).json({ message: 'User not authenticated' });
+      return;
+    }
+
+    res.json({
+      message: 'Profile retrieved successfully',
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt
+      }
+    });
+  } catch (error) {
+    console.error('Get profile error:', error);
     res.status(500).json({ 
       message: 'Server error', 
       error: (error as Error).message 
@@ -273,7 +300,7 @@ export const changePassword = async (req: AuthRequest, res: Response): Promise<v
  * @route POST /api/auth/logout
  * @access Private
  */
-export const logout = async (req: AuthRequest, res: Response): Promise<void> => {
+export const logout = async (_req: AuthRequest, res: Response): Promise<void> => {
   try {
     // Note: JWT is stateless, so logout is handled client-side by removing the token
     // This endpoint provides a clean way to handle logout on the server if needed

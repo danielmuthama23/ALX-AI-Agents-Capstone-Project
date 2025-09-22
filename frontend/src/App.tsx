@@ -16,7 +16,6 @@ import {
 import Header from './components/common/Header/Header';
 import Footer from './components/common/Footer/Footer';
 import LoadingSpinner from './components/common/LoadingSpinner/LoadingSpinner';
-import { classNames } from './utils/helpers';
 import './styles/index.css';
 
 // Protected route component

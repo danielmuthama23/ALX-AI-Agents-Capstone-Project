@@ -130,18 +130,24 @@ class UserService {
                     createdAt: user.createdAt,
                     updatedAt: user.updatedAt
                 },
-                tasks: tasks.map(task => ({
-                    id: task._id,
-                    title: task.title,
-                    description: task.description,
-                    dueDate: task.dueDate,
-                    priority: task.priority,
-                    category: task.category,
-                    completed: task.completed,
-                    createdAt: task.createdAt,
-                    updatedAt: task.updatedAt,
-                    completedAt: task.completed ? task.updatedAt : undefined
-                })),
+                tasks: tasks.map(task => {
+                    const taskData = {
+                        id: task._id,
+                        title: task.title,
+                        priority: task.priority,
+                        category: task.category,
+                        completed: task.completed,
+                        createdAt: task.createdAt,
+                        updatedAt: task.updatedAt
+                    };
+                    if (task.description)
+                        taskData.description = task.description;
+                    if (task.dueDate)
+                        taskData.dueDate = task.dueDate;
+                    if (task.completed)
+                        taskData.completedAt = task.updatedAt;
+                    return taskData;
+                }),
                 exportedAt: new Date(),
                 totalTasks: tasks.length,
                 completedTasks: tasks.filter(task => task.completed).length

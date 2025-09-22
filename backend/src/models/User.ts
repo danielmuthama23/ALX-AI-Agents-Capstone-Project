@@ -49,7 +49,7 @@ const UserSchema: Schema = new Schema(
   {
     timestamps: true,
     toJSON: {
-      transform: function(doc, ret) {
+      transform: function(_doc, ret) {
         ret.id = ret._id;
         delete ret._id;
         delete ret.__v;
@@ -58,7 +58,7 @@ const UserSchema: Schema = new Schema(
       }
     },
     toObject: {
-      transform: function(doc, ret) {
+      transform: function(_doc, ret) {
         ret.id = ret._id;
         delete ret._id;
         delete ret.__v;
